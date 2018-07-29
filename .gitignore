@@ -1,0 +1,12 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/ObservableConcurrentQueue/bin/Debug
+/ObservableConcurrentQueue/bin/Release
+/ObservableConcurrentQueue/obj
+/ObservableConcurrentQueue.Demo/bin
+/ObservableConcurrentQueue.Demo/obj
+/ObservableConcurrentQueue.Tests/bin
+/ObservableConcurrentQueue.Tests/obj
+/.vs/ObservableConcurrentQueue

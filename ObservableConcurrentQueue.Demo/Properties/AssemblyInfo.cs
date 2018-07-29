@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ObservableConcurrentQueue.cs" company="BledSoft">
+// <copyright file="ObservableConcurrentQueue.cs" company="Prioricy">
 //   This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 //   To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/.
 // </copyright>
@@ -17,9 +17,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("ObservableConcurrentQueueConsole")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("BledSoft")]
+[assembly: AssemblyCompany("Prioricy")]
 [assembly: AssemblyProduct("ObservableConcurrentQueueConsole")]
-[assembly: AssemblyCopyright("Copyright © BledSoft 2014")]
+[assembly: AssemblyCopyright("Copyright © Prioricy 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

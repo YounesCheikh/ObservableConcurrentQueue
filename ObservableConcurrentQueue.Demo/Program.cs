@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ObservableConcurrentQueue.cs" company="BledSoft">
+// <copyright file="ObservableConcurrentQueue.cs" company="Prioricy">
 //   This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 //   To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/.
 // </copyright>
@@ -80,19 +80,19 @@ namespace System.Collections.Concurrent.Demo
             if (args.Action == NotifyConcurrentQueueChangedAction.Enqueue)
             {
                 Console.BackgroundColor = ConsoleColor.DarkGreen;
-                Console.WriteLine("New Item added: {0}", args.ChangedItem);
+                Console.WriteLine($"New Item added: {args.ChangedItem}");
             }
 
             if (args.Action == NotifyConcurrentQueueChangedAction.Dequeue)
             {
                 Console.BackgroundColor = ConsoleColor.Red;
-                Console.WriteLine("New Item deleted: {0}", args.ChangedItem);
+                Console.WriteLine($"New Item deleted: {args.ChangedItem}");
             }
 
             if (args.Action == NotifyConcurrentQueueChangedAction.Peek)
             {
                 Console.BackgroundColor = ConsoleColor.DarkBlue;
-                Console.WriteLine("Item peeked: {0}", args.ChangedItem);
+                Console.WriteLine($"Item peeked: {args.ChangedItem}");
             }
 
             if (args.Action == NotifyConcurrentQueueChangedAction.Empty)

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ObservableConcurrentQueue.cs" company="BledSoft">
+// <copyright file="ObservableConcurrentQueue.cs" company="Prioricy">
 //   This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 //   To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/.
 // </copyright>
@@ -9,7 +9,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace System.Collections.Concurrent.Tests
 {
-    using System.Collections.Concurrent;
+    using Concurrent;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -27,27 +27,27 @@ namespace System.Collections.Concurrent.Tests
         /// <value>
         ///     <c>true</c> if the queue instance is empty; otherwise, <c>false</c>.
         /// </value>
-        private bool isQueueEmpty = true;
+        private bool _isQueueEmpty = true;
 
         /// <summary>
         ///     The queue
         /// </summary>
-        private ObservableConcurrentQueue<int> queue;
+        private ObservableConcurrentQueue<int> _queue;
 
         /// <summary>
         ///     The queue new item.
         /// </summary>
-        private int queueAddedItem;
+        private int _queueAddedItem;
 
         /// <summary>
         ///     The queue deleted item.
         /// </summary>
-        private int queueDeletedItem;
+        private int _queueDeletedItem;
 
         /// <summary>
         ///     The queue peeked item
         /// </summary>
-        private int queuePeekedItem;
+        private int _queuePeekedItem;
 
         #endregion
 
@@ -59,8 +59,8 @@ namespace System.Collections.Concurrent.Tests
         [TestInitialize]
         public void InitializeTest()
         {
-            this.queue = new ObservableConcurrentQueue<int>();
-            this.queue.ContentChanged += this.OnQueueChanged;
+            _queue = new ObservableConcurrentQueue<int>();
+            _queue.ContentChanged += OnQueueChanged;
         }
 
         /// <summary>
@@ -70,17 +70,17 @@ namespace System.Collections.Concurrent.Tests
         public void MainTest()
         {
             // Add 2 elements.
-            this.EnqueueEventTest();
+            EnqueueEventTest();
 
             // Dequeue 1 element.
-            this.DequeueEventTest();
+            DequeueEventTest();
 
             // Peek 1 element.
-            this.PeekEventTest();
+            PeekEventTest();
 
             // Dequeue all elements
             // the queue should be empty
-            this.EmptyQueueTest();
+            EmptyQueueTest();
         }
 
         #endregion
@@ -92,11 +92,10 @@ namespace System.Collections.Concurrent.Tests
         /// </summary>
         private void DequeueEventTest()
         {
-            int item;
-            var result = this.queue.TryDequeue(out item);
+            var result = _queue.TryDequeue(out var item);
             Assert.IsTrue(result);
-            Assert.AreEqual(item, this.queueDeletedItem);
-            Assert.IsFalse(this.isQueueEmpty);
+            Assert.AreEqual(item, _queueDeletedItem);
+            Assert.IsFalse(_isQueueEmpty);
         }
 
         /// <summary>
@@ -104,13 +103,12 @@ namespace System.Collections.Concurrent.Tests
         /// </summary>
         private void EmptyQueueTest()
         {
-            int item;
-            while (this.queue.TryDequeue(out item))
+            while (_queue.TryDequeue(out int item))
             {
-                Assert.AreEqual(item, this.queueDeletedItem);
+                Assert.AreEqual(item, _queueDeletedItem);
             }
 
-            Assert.IsTrue(this.isQueueEmpty);
+            Assert.IsTrue(_isQueueEmpty);
         }
 
         /// <summary>
@@ -118,14 +116,14 @@ namespace System.Collections.Concurrent.Tests
         /// </summary>
         private void EnqueueEventTest()
         {
-            const int Item = 11;
-            this.queue.Enqueue(Item);
-            Assert.AreEqual(Item, this.queueAddedItem);
-            Assert.IsFalse(this.isQueueEmpty);
+            const int item = 11;
+            _queue.Enqueue(item);
+            Assert.AreEqual(item, _queueAddedItem);
+            Assert.IsFalse(_isQueueEmpty);
 
-            this.queue.Enqueue(Item + 1);
-            Assert.AreEqual(Item + 1, this.queueAddedItem);
-            Assert.IsFalse(this.isQueueEmpty);
+            _queue.Enqueue(item + 1);
+            Assert.AreEqual(item + 1, _queueAddedItem);
+            Assert.IsFalse(_isQueueEmpty);
         }
 
         /// <summary>
@@ -143,28 +141,28 @@ namespace System.Collections.Concurrent.Tests
             {
                 case NotifyConcurrentQueueChangedAction.Enqueue:
                     {
-                        this.queueAddedItem = args.ChangedItem;
-                        this.isQueueEmpty = false;
+                        _queueAddedItem = args.ChangedItem;
+                        _isQueueEmpty = false;
                         break;
                     }
 
                 case NotifyConcurrentQueueChangedAction.Dequeue:
                     {
-                        this.queueDeletedItem = args.ChangedItem;
-                        this.isQueueEmpty = false;
+                        _queueDeletedItem = args.ChangedItem;
+                        _isQueueEmpty = false;
                         break;
                     }
 
                 case NotifyConcurrentQueueChangedAction.Peek:
                     {
-                        this.queuePeekedItem = args.ChangedItem;
-                        this.isQueueEmpty = false;
+                        _queuePeekedItem = args.ChangedItem;
+                        _isQueueEmpty = false;
                         break;
                     }
 
                 case NotifyConcurrentQueueChangedAction.Empty:
                     {
-                        this.isQueueEmpty = true;
+                        _isQueueEmpty = true;
                         break;
                     }
             }
@@ -175,11 +173,10 @@ namespace System.Collections.Concurrent.Tests
         /// </summary>
         private void PeekEventTest()
         {
-            int item;
-            var result = this.queue.TryPeek(out item);
+            var result = _queue.TryPeek(out int item);
             Assert.IsTrue(result);
-            Assert.AreEqual(item, this.queuePeekedItem);
-            Assert.IsFalse(this.isQueueEmpty);
+            Assert.AreEqual(item, _queuePeekedItem);
+            Assert.IsFalse(_isQueueEmpty);
         }
 
         #endregion
