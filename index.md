@@ -1,7 +1,7 @@
 ObservableConcurrentQueue
 =========================
 
-<img src="img/ObservableConcurrentQueue.png" alt="ObservableConcurrentQueue" width="200"/>
+<img src="ObservableConcurrentQueue.png" alt="ObservableConcurrentQueue" width="200"/>
 <br /> 
 
 ![BUILD](https://github.com/cyounes/ObservableConcurrentQueue/workflows/BUILD/badge.svg)
