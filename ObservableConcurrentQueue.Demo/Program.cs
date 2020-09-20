@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace ObservableConcurrentQueue.Demo
 {
-    class Program
+    public class Program
     {
         #region Methods
 
@@ -24,7 +24,7 @@ namespace ObservableConcurrentQueue.Demo
         /// <param name="args">
         /// The args.
         /// </param>
-        private static async Task Main(string[] args)
+        public static async Task Main(string[] args)
         {
             Console.BackgroundColor = ConsoleColor.Yellow;
             Console.ForegroundColor = ConsoleColor.DarkRed;

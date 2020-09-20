@@ -27,6 +27,8 @@ var observableConcurrentQueue = new ObservableConcurrentQueue();
 ```csharp
 var observableConcurrentQueue = new ObservableConcurrentQueue(true);
 ``` 
+#### Note about Thread Safety:
+> According to [Mircosoft Documentation](https://docs.microsoft.com/en-us/dotnet/api/system.collections.concurrent.concurrentqueue-1?redirectedfrom=MSDN&view=netcore-3.1#thread-safety) All public and protected members of `ConcurrentQueue<T>` are thread-safe and may be used concurrently from multiple threads. This additional Thread Safe option is just for some customization stuff. 
 
 ### Subscribe the Handler to the event ContentChanged
 ```csharp
