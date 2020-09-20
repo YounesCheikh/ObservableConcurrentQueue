@@ -1,6 +1,8 @@
 ObservableConcurrentQueue
 =========================
 
+![.NET Core on Features](https://github.com/cyounes/ObservableConcurrentQueue/workflows/.NET%20Core%20on%20Features/badge.svg)
+
 Using System.Collections.Concurrent.ConcurrentQueue with notifications
 
 Get the latest version of source code from [~~Codeplex~~](https://observableconcurrentqueue.codeplex.com/)

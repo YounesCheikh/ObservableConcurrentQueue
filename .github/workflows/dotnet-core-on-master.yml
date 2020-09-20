@@ -1,4 +1,4 @@
-name: .NET Core on Features
+name: .NET Core on master
 
 on:
   push:
