@@ -18,15 +18,23 @@ if you are not familiar with *ConcurrentQueue*, [Read more about it on MSDN](htt
 
 # Usage
 ## Syntax
-```
-// Create new instance
+### Create new instance without thread safe
+```Csharp
 var observableConcurrentQueue = new ObservableConcurrentQueue();
-// Subscribe the Handler to the event ContentChanged
+``` 
+
+### Create new Thread Safe instance
+```csharp
+var observableConcurrentQueue = new ObservableConcurrentQueue(true);
+``` 
+
+### Subscribe the Handler to the event ContentChanged
+```csharp
 observableConcurrentQueue.ContentChanged += OnObservableConcurrentQueueContentChanged;
 ```
 
 ### Example of handling method: 
-```
+```csharp
 private static void OnObservableConcurrentQueueContentChanged(
  object sender,
  NotifyConcurrentQueueChangedEventArgs args)

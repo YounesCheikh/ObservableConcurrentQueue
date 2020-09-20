@@ -18,6 +18,30 @@ namespace System.Collections.Concurrent
     /// </typeparam>
     public sealed class ObservableConcurrentQueue<T> : ConcurrentQueue<T>
     {
+        /// <summary>
+        /// The is thread safe
+        /// </summary>
+        private readonly bool _isThreadSafe;
+
+        /// <summary>
+        /// The enqueue synchronize object
+        /// </summary>
+        private readonly object _enqueueSyncObj = new object();
+
+        /// <summary>
+        /// The dequeue synchronize object
+        /// </summary>
+        private readonly object _dequeueSyncObj = new object();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableConcurrentQueue{T}"/> class.
+        /// </summary>
+        /// <param name="isThreadSafe">if set to <c>true</c> [is thread safe].</param>
+        public ObservableConcurrentQueue(bool isThreadSafe = false)
+        {
+            _isThreadSafe = isThreadSafe;
+        }
+
         #region Public Events
 
         /// <summary>
@@ -38,13 +62,20 @@ namespace System.Collections.Concurrent
         /// </param>
         public new void Enqueue(T item)
         {
-            base.Enqueue(item);
-
-            // Raise event added event
-            this.OnContentChanged(
-                new NotifyConcurrentQueueChangedEventArgs<T>(NotifyConcurrentQueueChangedAction.Enqueue, item));
+            if(_isThreadSafe)
+            {
+                lock (_enqueueSyncObj)
+                {
+                    EnqueueItem(item);
+                }
+            }
+            else
+            {
+                EnqueueItem(item);
+            }
         }
 
+        
         /// <summary>
         /// Attempts to remove and return the object at the beginning of the
         ///     <see cref="T:System.Collections.Concurrent.ConcurrentQueue`1"/>.
@@ -59,23 +90,15 @@ namespace System.Collections.Concurrent
         /// </returns>
         public new bool TryDequeue(out T result)
         {
-            if (!base.TryDequeue(out result))
+            if (_isThreadSafe)
             {
-                return false;
+                lock (_dequeueSyncObj)
+                {
+                    return TryDequeueItem(out result);
+                }
             }
-
-            // Raise item dequeued event
-            this.OnContentChanged(
-                new NotifyConcurrentQueueChangedEventArgs<T>(NotifyConcurrentQueueChangedAction.Dequeue, result));
-
-            if (this.IsEmpty)
-            {
-                // Raise Queue empty event
-                this.OnContentChanged(
-                    new NotifyConcurrentQueueChangedEventArgs<T>(NotifyConcurrentQueueChangedAction.Empty));
-            }
-
-            return true;
+            else
+                return TryDequeueItem(out result);
         }
 
         /// <summary>
@@ -114,12 +137,48 @@ namespace System.Collections.Concurrent
         /// </param>
         private void OnContentChanged(NotifyConcurrentQueueChangedEventArgs<T> args)
         {
-            var handler = this.ContentChanged;
-            if (handler != null)
-            {
-                handler(this, args);
-            }
+            this.ContentChanged?.Invoke(this, args);
         }
+
+        /// <summary>
+        /// Enqueues the item.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        private void EnqueueItem(T item)
+        {
+            base.Enqueue(item);
+
+            // Raise event added event
+            this.OnContentChanged(
+                new NotifyConcurrentQueueChangedEventArgs<T>(NotifyConcurrentQueueChangedAction.Enqueue, item));
+        }
+
+        /// <summary>
+        /// Tries the dequeue item.
+        /// </summary>
+        /// <param name="result">The result.</param>
+        /// <returns>true if and object was returned successfully; otherwise, false.</returns>
+        private bool TryDequeueItem(out T result)
+        {
+            if (!base.TryDequeue(out result))
+            {
+                return false;
+            }
+
+            // Raise item dequeued event
+            this.OnContentChanged(
+                new NotifyConcurrentQueueChangedEventArgs<T>(NotifyConcurrentQueueChangedAction.Dequeue, result));
+
+            if (this.IsEmpty)
+            {
+                // Raise Queue empty event
+                this.OnContentChanged(
+                    new NotifyConcurrentQueueChangedEventArgs<T>(NotifyConcurrentQueueChangedAction.Empty));
+            }
+
+            return true;
+        }
+
 
         #endregion
     }

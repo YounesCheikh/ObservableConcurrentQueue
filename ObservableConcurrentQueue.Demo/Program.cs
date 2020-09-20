@@ -25,43 +25,99 @@ namespace System.Collections.Concurrent.Demo
         /// <param name="args">
         /// The args.
         /// </param>
-        private static void Main(string[] args)
+        private static async Task Main(string[] args)
+        {
+            Console.BackgroundColor = ConsoleColor.Yellow;
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("### TRYING ObservableConcurrentQueue without Thread Safe ###");
+            Console.ResetColor();
+            TryItWithoutThreadSafe();
+            Console.WriteLine("End. Press any key to continue...");
+            Console.ReadKey();
+            Console.BackgroundColor = ConsoleColor.Yellow;
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("### TRYING ObservableConcurrentQueue using Thread Safe ###");
+            Console.ResetColor();
+            await TryItWithThreadSafeAsync(); 
+            Console.WriteLine("End. Press any key to exit...");
+            Console.ReadKey();
+        }
+
+        private static async Task TryItWithThreadSafeAsync() 
+        { 
+            
+            var observableConcurrentQueue = new ObservableConcurrentQueue<int>();
+            observableConcurrentQueue.ContentChanged += OnObservableConcurrentQueueContentChanged;
+            await Task.Run(() =>
+
+                {
+                    Console.WriteLine("Enqueue elements...");
+                    Parallel.For(1, 20, i => { observableConcurrentQueue.Enqueue(i); });
+
+                    int item;
+
+                    Console.WriteLine("Peek & Dequeue 5 elements...");
+                    Parallel.For(0, 5, i =>
+                    {
+                        observableConcurrentQueue.TryPeek(out item);
+                        Thread.Sleep(300);
+                        observableConcurrentQueue.TryDequeue(out item);
+                    });
+
+                    Thread.Sleep(300);
+
+                    observableConcurrentQueue.TryPeek(out item);
+                    Thread.Sleep(300);
+
+                    Console.WriteLine("Dequeue all elements...");
+
+                    Parallel.For(1, 20, i =>
+                    {
+                        while (observableConcurrentQueue.TryDequeue(out item))
+                        {
+                            // NO SLEEP, Force Concurrence
+                            // Thread.Sleep(300);
+                        }
+                    });
+                }
+            );
+        }
+
+        private static void TryItWithoutThreadSafe() 
         {
             var observableConcurrentQueue = new ObservableConcurrentQueue<int>();
             observableConcurrentQueue.ContentChanged += OnObservableConcurrentQueueContentChanged;
             var task = new Task(
                 () =>
+                {
+                    Console.WriteLine("Enqueue elements...");
+                    for (int i = 1; i <= 20; i++)
                     {
-                        Console.WriteLine("Enqueue elements...");
-                        for (int i = 1; i <= 20; i++)
-                        {
-                            observableConcurrentQueue.Enqueue(i);
-                            Thread.Sleep(100);
-                        }
+                        observableConcurrentQueue.Enqueue(i);
+                        Thread.Sleep(100);
+                    }
 
-                        int item;
+                    int item;
 
-                        Console.WriteLine("Peek & Dequeue 5 elements...");
-                        for (int i = 0; i < 5; i++)
-                        {
-                            observableConcurrentQueue.TryPeek(out item);
-                            Thread.Sleep(300);
-                            observableConcurrentQueue.TryDequeue(out item);
-                            Thread.Sleep(300);
-                        }
-
+                    Console.WriteLine("Peek & Dequeue 5 elements...");
+                    for (int i = 0; i < 5; i++)
+                    {
                         observableConcurrentQueue.TryPeek(out item);
                         Thread.Sleep(300);
+                        observableConcurrentQueue.TryDequeue(out item);
+                        Thread.Sleep(300);
+                    }
 
-                        Console.WriteLine("Dequeue all elements...");
-                        while (observableConcurrentQueue.TryDequeue(out item))
-                        {
-                            Thread.Sleep(300);
-                        }
-                    });
+                    observableConcurrentQueue.TryPeek(out item);
+                    Thread.Sleep(300);
+
+                    Console.WriteLine("Dequeue all elements...");
+                    while (observableConcurrentQueue.TryDequeue(out item))
+                    {
+                        Thread.Sleep(300);
+                    }
+                });
             task.Start();
-            Console.WriteLine("End. Press any key to exit...");
-            Console.ReadKey(true);
         }
 
         /// <summary>
