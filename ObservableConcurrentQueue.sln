@@ -5,13 +5,14 @@ VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ObservableConcurrentQueue", "ObservableConcurrentQueue\ObservableConcurrentQueue.csproj", "{707AC3DE-3EB5-451B-8D3B-492D8F3B23B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObservableConcurrentQueue.Demo", "ObservableConcurrentQueue.Demo\ObservableConcurrentQueue.Demo.csproj", "{3A11A9A0-9B0D-4C3F-8522-D9DADDE83413}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ObservableConcurrentQueue.Demo", "ObservableConcurrentQueue.Demo\ObservableConcurrentQueue.Demo.csproj", "{3A11A9A0-9B0D-4C3F-8522-D9DADDE83413}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObservableConcurrentQueue.Tests", "ObservableConcurrentQueue.Tests\ObservableConcurrentQueue.Tests.csproj", "{DFCD47AD-8667-4189-B1F4-CDE8F60B7918}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ObservableConcurrentQueue.Tests", "ObservableConcurrentQueue.Tests\ObservableConcurrentQueue.Tests.csproj", "{DFCD47AD-8667-4189-B1F4-CDE8F60B7918}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FE1FFCA6-7FDC-4928-9AD2-1A2B5969ABCF}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\dotnet-core-on-features.yml = .github\workflows\dotnet-core-on-features.yml
+		.github\workflows\dotnet-core-on-master.yml = .github\workflows\dotnet-core-on-master.yml
 	EndProjectSection
 EndProject
 Global
