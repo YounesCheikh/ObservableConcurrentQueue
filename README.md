@@ -1,7 +1,11 @@
 ObservableConcurrentQueue
 =========================
 
-![.NET Core on Features](https://github.com/cyounes/ObservableConcurrentQueue/workflows/.NET%20Core%20on%20Features/badge.svg)
+<img src="img/ObservableConcurrentQueue.png" alt="ObservableConcurrentQueue" width="200"/>
+<br /> 
+
+![BUILD](https://github.com/cyounes/ObservableConcurrentQueue/workflows/BUILD/badge.svg)
+[![NuGet Badge](https://buildstats.info/nuget/ObservableConcurrentQueue)](https://www.nuget.org/packages/ObservableConcurrentQueue/)
 
 Using System.Collections.Concurrent.ConcurrentQueue with notifications
 
