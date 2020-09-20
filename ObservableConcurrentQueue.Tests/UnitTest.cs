@@ -1,4 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ObservableConcurrentQueue.cs" company="Prioricy">
 //   This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 //   To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/.
@@ -7,12 +7,12 @@
 // Cheikh Younes
 // </Author>
 // --------------------------------------------------------------------------------------------------------------------
-namespace System.Collections.Concurrent.Tests
+
+using System.Collections.Concurrent;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace ObservableConcurrentQueue.Tests
 {
-    using Concurrent;
-
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     /// <summary>
     ///     The unit test.
     /// </summary>
