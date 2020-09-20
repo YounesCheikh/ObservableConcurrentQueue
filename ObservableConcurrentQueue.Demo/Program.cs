@@ -7,15 +7,14 @@
 // Cheikh Younes
 // </Author>
 // --------------------------------------------------------------------------------------------------------------------
-namespace System.Collections.Concurrent.Demo
-{
-    using System.Threading;
-    using System.Threading.Tasks;
+using System;
+using System.Collections.Concurrent;
+using System.Threading;
+using System.Threading.Tasks;
 
-    /// <summary>
-    ///     The program.
-    /// </summary>
-    public class Program
+namespace ObservableConcurrentQueue.Demo
+{
+    class Program
     {
         #region Methods
 
@@ -38,52 +37,52 @@ namespace System.Collections.Concurrent.Demo
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("### TRYING ObservableConcurrentQueue using Thread Safe ###");
             Console.ResetColor();
-            await TryItWithThreadSafeAsync(); 
+            await TryItWithThreadSafeAsync();
             Console.WriteLine("End. Press any key to exit...");
             Console.ReadKey();
         }
 
-        private static async Task TryItWithThreadSafeAsync() 
-        { 
-            
+        private static async Task TryItWithThreadSafeAsync()
+        {
+
             var observableConcurrentQueue = new ObservableConcurrentQueue<int>();
             observableConcurrentQueue.ContentChanged += OnObservableConcurrentQueueContentChanged;
             await Task.Run(() =>
 
+            {
+                Console.WriteLine("Enqueue elements...");
+                Parallel.For(1, 20, i => { observableConcurrentQueue.Enqueue(i); });
+
+                int item;
+
+                Console.WriteLine("Peek & Dequeue 5 elements...");
+                Parallel.For(0, 5, i =>
                 {
-                    Console.WriteLine("Enqueue elements...");
-                    Parallel.For(1, 20, i => { observableConcurrentQueue.Enqueue(i); });
-
-                    int item;
-
-                    Console.WriteLine("Peek & Dequeue 5 elements...");
-                    Parallel.For(0, 5, i =>
-                    {
-                        observableConcurrentQueue.TryPeek(out item);
-                        Thread.Sleep(300);
-                        observableConcurrentQueue.TryDequeue(out item);
-                    });
-
-                    Thread.Sleep(300);
-
                     observableConcurrentQueue.TryPeek(out item);
                     Thread.Sleep(300);
+                    observableConcurrentQueue.TryDequeue(out item);
+                });
 
-                    Console.WriteLine("Dequeue all elements...");
+                Thread.Sleep(300);
 
-                    Parallel.For(1, 20, i =>
+                observableConcurrentQueue.TryPeek(out item);
+                Thread.Sleep(300);
+
+                Console.WriteLine("Dequeue all elements...");
+
+                Parallel.For(1, 20, i =>
+                {
+                    while (observableConcurrentQueue.TryDequeue(out item))
                     {
-                        while (observableConcurrentQueue.TryDequeue(out item))
-                        {
-                            // NO SLEEP, Force Concurrence
-                            // Thread.Sleep(300);
-                        }
-                    });
-                }
+                        // NO SLEEP, Force Concurrence
+                        // Thread.Sleep(300);
+                    }
+                });
+            }
             );
         }
 
-        private static void TryItWithoutThreadSafe() 
+        private static void TryItWithoutThreadSafe()
         {
             var observableConcurrentQueue = new ObservableConcurrentQueue<int>();
             observableConcurrentQueue.ContentChanged += OnObservableConcurrentQueueContentChanged;
@@ -130,7 +129,7 @@ namespace System.Collections.Concurrent.Demo
         /// The args.
         /// </param>
         private static void OnObservableConcurrentQueueContentChanged(
-            object sender, 
+            object sender,
             NotifyConcurrentQueueChangedEventArgs<int> args)
         {
             if (args.Action == NotifyConcurrentQueueChangedAction.Enqueue)
