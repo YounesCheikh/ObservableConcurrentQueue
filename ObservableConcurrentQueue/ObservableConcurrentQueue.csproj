@@ -6,7 +6,7 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Description>Observable Concurrent Queue based on the classic concurrent queue (System.Collections.Concurrent.ConcurrentQueue) Allows to raise events when the queue content is changed with the same events as ObservableCollection</Description>
     <Version>1.2.0.0</Version>
-    <PackageProjectUrl>https://observableconcurrentqueue.codeplex.com/</PackageProjectUrl>
+    <PackageProjectUrl>https://somecode.net/observableconcurrentqueue/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/YounesCheikh/ObservableConcurrentQueue</RepositoryUrl>
     <PackageLicense>https://github.com/YounesCheikh/ObservableConcurrentQueue/blob/master/license.md</PackageLicense>
     <AssemblyVersion>1.2.0.0</AssemblyVersion>

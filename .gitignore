@@ -10,3 +10,6 @@
 /ObservableConcurrentQueue.Tests/bin
 /ObservableConcurrentQueue.Tests/obj
 /.vs/ObservableConcurrentQueue
+.DS_Store
+ObservableConcurrentQueue/.DS_Store
+ObservableConcurrentQueue/bin/
