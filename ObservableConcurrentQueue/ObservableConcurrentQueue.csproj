@@ -1,15 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.1;netstandard1.2;netstandard1.3;netstandard1.4;netstandard1.5;netstandard1.6;netstandard2.0;netstandard2.1;netcoreapp1.0;netcoreapp1.1;netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1;net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48</TargetFrameworks>
+    <TargetFrameworks>netstandard1.1;netstandard1.2;netstandard1.3;netstandard1.4;netstandard1.5;netstandard1.6;netstandard2.0;netstandard2.1;netcoreapp1.0;netcoreapp1.1;netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1;net40;net45;net451;net452;net46;net461;net462;net47;net471;net472;net48;net5.0;net6.0</TargetFrameworks>
+    <CheckEolTargetFramework>false</CheckEolTargetFramework>
     <Authors>Younes Cheikh</Authors>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Description>Observable Concurrent Queue based on the classic concurrent queue (System.Collections.Concurrent.ConcurrentQueue) Allows to raise events when the queue content is changed with the same events as ObservableCollection</Description>
-    <Version>1.1.0.0</Version>
+    <Version>1.2.0.0</Version>
     <PackageProjectUrl>https://observableconcurrentqueue.codeplex.com/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/cyounes/ObservableConcurrentQueue</RepositoryUrl>
     <PackageLicense>https://github.com/cyounes/ObservableConcurrentQueue/blob/master/license.md</PackageLicense>
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
-    <FileVersion>1.1.0.0</FileVersion>
+    <AssemblyVersion>1.2.0.0</AssemblyVersion>
+    <FileVersion>1.2.0.0</FileVersion>
     <PackageTags>C# Observable Queue Concurrent ConcurrentQueue Event Content</PackageTags>
     <PackageIcon>ObservableConcurrentQueue.png</PackageIcon>
   </PropertyGroup>

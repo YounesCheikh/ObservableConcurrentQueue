@@ -19,27 +19,16 @@ namespace System.Collections.Concurrent
     public sealed class ObservableConcurrentQueue<T> : ConcurrentQueue<T>
     {
         /// <summary>
-        /// The is thread safe
-        /// </summary>
-        private readonly bool _isThreadSafe;
-
-        /// <summary>
-        /// The enqueue synchronize object
-        /// </summary>
-        private readonly object _enqueueSyncObj = new object();
-
-        /// <summary>
-        /// The dequeue synchronize object
-        /// </summary>
-        private readonly object _dequeueSyncObj = new object();
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ObservableConcurrentQueue{T}"/> class.
         /// </summary>
         /// <param name="isThreadSafe">if set to <c>true</c> [is thread safe].</param>
-        public ObservableConcurrentQueue(bool isThreadSafe = false)
+        [Obsolete("This constructor is obsolete. Use ObservableConcurrentQueue() instead.", true)]
+        public ObservableConcurrentQueue(bool isThreadSafe): this()
         {
-            _isThreadSafe = isThreadSafe;
+        }
+
+        public ObservableConcurrentQueue(){
+
         }
 
         #region Public Events
@@ -62,17 +51,7 @@ namespace System.Collections.Concurrent
         /// </param>
         public new void Enqueue(T item)
         {
-            if(_isThreadSafe)
-            {
-                lock (_enqueueSyncObj)
-                {
-                    EnqueueItem(item);
-                }
-            }
-            else
-            {
-                EnqueueItem(item);
-            }
+            EnqueueItem(item);
         }
 
         
@@ -90,15 +69,7 @@ namespace System.Collections.Concurrent
         /// </returns>
         public new bool TryDequeue(out T result)
         {
-            if (_isThreadSafe)
-            {
-                lock (_dequeueSyncObj)
-                {
-                    return TryDequeueItem(out result);
-                }
-            }
-            else
-                return TryDequeueItem(out result);
+            return TryDequeueItem(out result);
         }
 
         /// <summary>

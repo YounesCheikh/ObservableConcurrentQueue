@@ -28,26 +28,19 @@ namespace ObservableConcurrentQueue.Demo
         {
             Console.BackgroundColor = ConsoleColor.Yellow;
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("### TRYING ObservableConcurrentQueue without Thread Safe ###");
+            Console.WriteLine("### TRYING ObservableConcurrentQueue ###");
             Console.ResetColor();
-            TryItWithoutThreadSafe();
-            Console.WriteLine("End. Press any key to continue...");
-            Console.ReadKey();
-            Console.BackgroundColor = ConsoleColor.Yellow;
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("### TRYING ObservableConcurrentQueue using Thread Safe ###");
-            Console.ResetColor();
-            await TryItWithThreadSafeAsync();
+            await TryItAsync();
             Console.WriteLine("End. Press any key to exit...");
             Console.ReadKey();
         }
 
-        private static async Task TryItWithThreadSafeAsync()
+        private static Task TryItAsync()
         {
 
             var observableConcurrentQueue = new ObservableConcurrentQueue<int>();
             observableConcurrentQueue.ContentChanged += OnObservableConcurrentQueueContentChanged;
-            await Task.Run(() =>
+            return Task.Run(() =>
 
             {
                 Console.WriteLine("Enqueue elements...");
@@ -80,43 +73,6 @@ namespace ObservableConcurrentQueue.Demo
                 });
             }
             );
-        }
-
-        private static void TryItWithoutThreadSafe()
-        {
-            var observableConcurrentQueue = new ObservableConcurrentQueue<int>();
-            observableConcurrentQueue.ContentChanged += OnObservableConcurrentQueueContentChanged;
-            var task = new Task(
-                () =>
-                {
-                    Console.WriteLine("Enqueue elements...");
-                    for (int i = 1; i <= 20; i++)
-                    {
-                        observableConcurrentQueue.Enqueue(i);
-                        Thread.Sleep(100);
-                    }
-
-                    int item;
-
-                    Console.WriteLine("Peek & Dequeue 5 elements...");
-                    for (int i = 0; i < 5; i++)
-                    {
-                        observableConcurrentQueue.TryPeek(out item);
-                        Thread.Sleep(300);
-                        observableConcurrentQueue.TryDequeue(out item);
-                        Thread.Sleep(300);
-                    }
-
-                    observableConcurrentQueue.TryPeek(out item);
-                    Thread.Sleep(300);
-
-                    Console.WriteLine("Dequeue all elements...");
-                    while (observableConcurrentQueue.TryDequeue(out item))
-                    {
-                        Thread.Sleep(300);
-                    }
-                });
-            task.Start();
         }
 
         /// <summary>

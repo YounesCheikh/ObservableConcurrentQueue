@@ -24,15 +24,11 @@ if you are not familiar with *ConcurrentQueue*, [Read more about it on MSDN](htt
 
 # Usage
 ## Syntax
-### Create new instance without thread safe
+### Create new instance
 ```Csharp
 var observableConcurrentQueue = new ObservableConcurrentQueue();
 ``` 
 
-### Create new Thread Safe instance
-```csharp
-var observableConcurrentQueue = new ObservableConcurrentQueue(true);
-``` 
 #### Note about Thread Safety:
 > According to [Mircosoft Documentation](https://docs.microsoft.com/en-us/dotnet/api/system.collections.concurrent.concurrentqueue-1?redirectedfrom=MSDN&view=netcore-3.1#thread-safety) All public and protected members of `ConcurrentQueue<T>` are thread-safe and may be used concurrently from multiple threads. This additional Thread Safe option is just for some customization stuff. 
 
@@ -107,6 +103,8 @@ netcoreapp2.1
 netcoreapp2.2
 netcoreapp3.0
 netcoreapp3.1
+net5.0
+net6.0
 
 ## .NET Framework
 net40
