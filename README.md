@@ -95,6 +95,10 @@ netstandard1.6
 netstandard2.0
 netstandard2.1
 
+## .NET 
+net5.0
+net6.0
+
 ## .NET Core
 netcoreapp1.0
 netcoreapp1.1
@@ -103,8 +107,7 @@ netcoreapp2.1
 netcoreapp2.2
 netcoreapp3.0
 netcoreapp3.1
-net5.0
-net6.0
+
 
 ## .NET Framework
 net40
