@@ -4,7 +4,7 @@ ObservableConcurrentQueue
 <img src="img/ObservableConcurrentQueue.png" alt="ObservableConcurrentQueue" width="200"/>
 <br /> 
 
-![BUILD](https://github.com/cyounes/ObservableConcurrentQueue/workflows/BUILD/badge.svg)
+[![.NET](https://github.com/YounesCheikh/ObservableConcurrentQueue/actions/workflows/dotnet.yml/badge.svg)](https://github.com/YounesCheikh/ObservableConcurrentQueue/actions/workflows/dotnet.yml)
 [![NuGet Badge](https://buildstats.info/nuget/ObservableConcurrentQueue)](https://www.nuget.org/packages/ObservableConcurrentQueue/)
 
 Using System.Collections.Concurrent.ConcurrentQueue with notifications
