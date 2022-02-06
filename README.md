@@ -14,7 +14,6 @@ Or get it from NUGET:
 
 ``` 
 PM> Install-Package ObservableConcurrentQueue
-
 ```
 
 # Documentation
