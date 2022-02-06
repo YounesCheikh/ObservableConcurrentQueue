@@ -1,21 +1,19 @@
 ObservableConcurrentQueue
 =========================
 
-<img src="ObservableConcurrentQueue.png" alt="ObservableConcurrentQueue" width="200"/>
-<br /> 
+![ObservableConcurrentQueue](https://raw.githubusercontent.com/YounesCheikh/ObservableConcurrentQueue/master/img/ObservableConcurrentQueue-200px.png)
 
-![BUILD](https://github.com/cyounes/ObservableConcurrentQueue/workflows/BUILD/badge.svg)
+[![.NET](https://github.com/YounesCheikh/ObservableConcurrentQueue/actions/workflows/dotnet.yml/badge.svg)](https://github.com/YounesCheikh/ObservableConcurrentQueue/actions/workflows/dotnet.yml)
 [![NuGet Badge](https://buildstats.info/nuget/ObservableConcurrentQueue)](https://www.nuget.org/packages/ObservableConcurrentQueue/)
 
 Using System.Collections.Concurrent.ConcurrentQueue with notifications
 
-Get the latest version of source code from [~~Codeplex~~](https://observableconcurrentqueue.codeplex.com/)
+Get the latest version of source code from [Github](https://github.com/YounesCheikh/ObservableConcurrentQueue)
 
 Or get it from NUGET: 
 
 ``` 
 PM> Install-Package ObservableConcurrentQueue
-
 ```
 
 # Documentation
@@ -24,15 +22,11 @@ if you are not familiar with *ConcurrentQueue*, [Read more about it on MSDN](htt
 
 # Usage
 ## Syntax
-### Create new instance without thread safe
+### Create new instance
 ```Csharp
 var observableConcurrentQueue = new ObservableConcurrentQueue();
 ``` 
 
-### Create new Thread Safe instance
-```csharp
-var observableConcurrentQueue = new ObservableConcurrentQueue(true);
-``` 
 #### Note about Thread Safety:
 > According to [Mircosoft Documentation](https://docs.microsoft.com/en-us/dotnet/api/system.collections.concurrent.concurrentqueue-1?redirectedfrom=MSDN&view=netcore-3.1#thread-safety) All public and protected members of `ConcurrentQueue<T>` are thread-safe and may be used concurrently from multiple threads. This additional Thread Safe option is just for some customization stuff. 
 
@@ -41,7 +35,14 @@ var observableConcurrentQueue = new ObservableConcurrentQueue(true);
 observableConcurrentQueue.ContentChanged += OnObservableConcurrentQueueContentChanged;
 ```
 
+### Option 2: Subscribe to CollectionChanged Event 
+```csharp
+observableConcurrentQueue.CollectionChanged += OnObservableConcurrentQueueCollectionChanged;
+
+```
+
 ## Example of handling method: 
+### Queue Content Changed
 ```csharp
 private static void OnObservableConcurrentQueueContentChanged(
  object sender,
@@ -73,6 +74,29 @@ private static void OnObservableConcurrentQueueContentChanged(
  } 
 ```
 
+### Collection Changed event 
+```csharp
+private static void OnObservableConcurrentQueueCollectionChanged(
+     object sender,
+     NotifyCollectionChangedEventArgs args)
+{
+     if (args.Action == NotifyCollectionChangedAction.Add)
+     {
+          Console.WriteLine($"[+] Collection Changed [Add]: New Item added: {args.NewItems[0]}");
+     }
+
+     if (args.Action == NotifyCollectionChangedAction.Remove)
+     {
+          Console.WriteLine($"[-] Collection Changed [Remove]: New Item deleted: {args.OldItems[0]}");
+     }
+
+     if (args.Action == NotifyCollectionChangedAction.Reset)
+     {
+          Console.WriteLine("[ ] Collection Changed [Reset]: Queue is empty");
+     }
+}
+```
+
 Once the handler is defined, we can start adding, deleting or getting elements from the concurrentQueue, and after each operation an event will be raised and handled by the method above.
 
 ## Event Args
@@ -99,6 +123,10 @@ netstandard1.6
 netstandard2.0
 netstandard2.1
 
+## .NET 
+net5.0
+net6.0
+
 ## .NET Core
 netcoreapp1.0
 netcoreapp1.1
@@ -107,6 +135,7 @@ netcoreapp2.1
 netcoreapp2.2
 netcoreapp3.0
 netcoreapp3.1
+
 
 ## .NET Framework
 net40
