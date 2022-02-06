@@ -19,11 +19,6 @@ namespace System.Collections.Concurrent
     /// </typeparam>
     public sealed class ObservableConcurrentQueue<T> : ConcurrentQueue<T>, INotifyCollectionChanged
     {
-        public ObservableConcurrentQueue()
-        {
-
-        }
-
         #region Public Events
 
         /// <summary>
@@ -128,6 +123,8 @@ namespace System.Collections.Concurrent
                     }
 
             }
+
+            // Raise event only when action is defined (Add, Remove or Reset)
             if (action.HasValue)
             {
                 this.CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(action.Value, args.Action != NotifyConcurrentQueueChangedAction.Empty

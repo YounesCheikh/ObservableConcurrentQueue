@@ -16,22 +16,22 @@ namespace System.Collections.Concurrent
     public enum NotifyConcurrentQueueChangedAction
     {
         /// <summary>
-        ///     The enqueue
+        ///     New Item was added to the queue
         /// </summary>
         Enqueue, 
 
         /// <summary>
-        ///     The de-queue
+        ///     Item dequeued from the queue
         /// </summary>
         Dequeue, 
 
         /// <summary>
-        ///     The peek
+        ///     Item peeked from the queue without being dequeued.
         /// </summary>
         Peek, 
 
         /// <summary>
-        ///     The empty
+        ///     The last item in the queue was dequed and the queue is empty.
         /// </summary>
         Empty
     }
