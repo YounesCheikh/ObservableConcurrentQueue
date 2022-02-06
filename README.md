@@ -1,9 +1,7 @@
 ObservableConcurrentQueue
 =========================
 
-![ObservableConcurrentQueue](img/ObservableConcurrentQueue-200px.png)
-
-<br /> 
+![ObservableConcurrentQueue](https://raw.githubusercontent.com/YounesCheikh/ObservableConcurrentQueue/master/img/ObservableConcurrentQueue-200px.png)
 
 [![.NET](https://github.com/YounesCheikh/ObservableConcurrentQueue/actions/workflows/dotnet.yml/badge.svg)](https://github.com/YounesCheikh/ObservableConcurrentQueue/actions/workflows/dotnet.yml)
 [![NuGet Badge](https://buildstats.info/nuget/ObservableConcurrentQueue)](https://www.nuget.org/packages/ObservableConcurrentQueue/)
