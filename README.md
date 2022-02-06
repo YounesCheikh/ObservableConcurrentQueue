@@ -38,7 +38,14 @@ var observableConcurrentQueue = new ObservableConcurrentQueue();
 observableConcurrentQueue.ContentChanged += OnObservableConcurrentQueueContentChanged;
 ```
 
+### Option 2: Subscribe to CollectionChanged Event 
+```csharp
+observableConcurrentQueue.CollectionChanged += OnObservableConcurrentQueueCollectionChanged;
+
+```
+
 ## Example of handling method: 
+### Queue Content Changed
 ```csharp
 private static void OnObservableConcurrentQueueContentChanged(
  object sender,
@@ -68,6 +75,29 @@ private static void OnObservableConcurrentQueueContentChanged(
            Console.WriteLine("Queue is empty");
       }
  } 
+```
+
+### Collection Changed event 
+```csharp
+private static void OnObservableConcurrentQueueCollectionChanged(
+     object sender,
+     NotifyCollectionChangedEventArgs args)
+{
+     if (args.Action == NotifyCollectionChangedAction.Add)
+     {
+          Console.WriteLine($"[+] Collection Changed [Add]: New Item added: {args.NewItems[0]}");
+     }
+
+     if (args.Action == NotifyCollectionChangedAction.Remove)
+     {
+          Console.WriteLine($"[-] Collection Changed [Remove]: New Item deleted: {args.OldItems[0]}");
+     }
+
+     if (args.Action == NotifyCollectionChangedAction.Reset)
+     {
+          Console.WriteLine("[ ] Collection Changed [Reset]: Queue is empty");
+     }
+}
 ```
 
 Once the handler is defined, we can start adding, deleting or getting elements from the concurrentQueue, and after each operation an event will be raised and handled by the method above.
