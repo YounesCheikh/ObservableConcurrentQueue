@@ -1,7 +1,8 @@
 ObservableConcurrentQueue
 =========================
 
-<img src="img/ObservableConcurrentQueue.png" alt="ObservableConcurrentQueue" width="200"/>
+![ObservableConcurrentQueue](img/ObservableConcurrentQueue-200px.png)
+
 <br /> 
 
 [![.NET](https://github.com/YounesCheikh/ObservableConcurrentQueue/actions/workflows/dotnet.yml/badge.svg)](https://github.com/YounesCheikh/ObservableConcurrentQueue/actions/workflows/dotnet.yml)
@@ -9,7 +10,7 @@ ObservableConcurrentQueue
 
 Using System.Collections.Concurrent.ConcurrentQueue with notifications
 
-Get the latest version of source code from [~~Codeplex~~](https://observableconcurrentqueue.codeplex.com/)
+Get the latest version of source code from [Github](https://github.com/YounesCheikh/ObservableConcurrentQueue)
 
 Or get it from NUGET: 
 
