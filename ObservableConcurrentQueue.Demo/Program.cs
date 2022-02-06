@@ -9,6 +9,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,6 +17,8 @@ namespace ObservableConcurrentQueue.Demo
 {
     public class Program
     {
+        static ObservableConcurrentQueue<int> observableConcurrentQueue = new ObservableConcurrentQueue<int>();
+
         #region Methods
 
         /// <summary>
@@ -25,21 +28,22 @@ namespace ObservableConcurrentQueue.Demo
         /// The args.
         /// </param>
         public static async Task Main(string[] args)
-        {
-            Console.BackgroundColor = ConsoleColor.Yellow;
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("### TRYING ObservableConcurrentQueue ###");
+        {            
+            observableConcurrentQueue.ContentChanged += OnObservableConcurrentQueueContentChanged;
+            observableConcurrentQueue.CollectionChanged += OnObservableConcurrentQueueCollectionChanged;
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("### Parallel testing for ObservableConcurrentQueue ###");
             Console.ResetColor();
             await TryItAsync();
+            observableConcurrentQueue.ContentChanged -= OnObservableConcurrentQueueContentChanged;
+            observableConcurrentQueue.CollectionChanged -= OnObservableConcurrentQueueCollectionChanged;
             Console.WriteLine("End. Press any key to exit...");
             Console.ReadKey();
         }
 
         private static Task TryItAsync()
         {
-
-            var observableConcurrentQueue = new ObservableConcurrentQueue<int>();
-            observableConcurrentQueue.ContentChanged += OnObservableConcurrentQueueContentChanged;
             return Task.Run(() =>
 
             {
@@ -90,27 +94,51 @@ namespace ObservableConcurrentQueue.Demo
         {
             if (args.Action == NotifyConcurrentQueueChangedAction.Enqueue)
             {
-                Console.BackgroundColor = ConsoleColor.DarkGreen;
-                Console.WriteLine($"New Item added: {args.ChangedItem}");
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine($"[+] New Item added: {args.ChangedItem}");
             }
 
             if (args.Action == NotifyConcurrentQueueChangedAction.Dequeue)
             {
-                Console.BackgroundColor = ConsoleColor.Red;
-                Console.WriteLine($"New Item deleted: {args.ChangedItem}");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"[-] New Item deleted: {args.ChangedItem}");
             }
 
             if (args.Action == NotifyConcurrentQueueChangedAction.Peek)
             {
-                Console.BackgroundColor = ConsoleColor.DarkBlue;
-                Console.WriteLine($"Item peeked: {args.ChangedItem}");
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
+                Console.WriteLine($"[O] Item peeked: {args.ChangedItem}");
             }
 
             if (args.Action == NotifyConcurrentQueueChangedAction.Empty)
             {
-                Console.BackgroundColor = ConsoleColor.White;
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("Queue is empty");
+                Console.WriteLine("[ ] Queue is empty");
+            }
+
+            Console.ResetColor();
+        }
+
+        private static void OnObservableConcurrentQueueCollectionChanged(
+            object sender,
+            NotifyCollectionChangedEventArgs args)
+        {
+            if (args.Action == NotifyCollectionChangedAction.Add)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine($"[+] Collection Changed [Add]: New Item added: {args.NewItems[0]}");
+            }
+
+            if (args.Action == NotifyCollectionChangedAction.Remove)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"[-] Collection Changed [Remove]: New Item deleted: {args.OldItems[0]}");
+            }
+
+            if (args.Action == NotifyCollectionChangedAction.Reset)
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("[ ] Collection Changed [Reset]: Queue is empty");
             }
 
             Console.ResetColor();

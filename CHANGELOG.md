@@ -1,5 +1,9 @@
 # ChangeLog
 
+## [2.0.0] 06/02/2022
+
+- Added implementation to INotifyCollectionChanged to support WPF bindings.
+
 ## [1.2.0] 05/02/2022
 
 - Added support for new dotnet versions:

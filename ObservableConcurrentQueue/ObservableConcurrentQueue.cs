@@ -7,7 +7,8 @@
 // Younes Cheikh
 // </Author>
 // --------------------------------------------------------------------------------------------------------------------
-// ReSharper disable once CheckNamespace
+using System.Collections.Specialized;
+using System.Collections.Generic;
 namespace System.Collections.Concurrent
 {
     /// <summary>
@@ -16,18 +17,10 @@ namespace System.Collections.Concurrent
     /// <typeparam name="T">
     /// The content type
     /// </typeparam>
-    public sealed class ObservableConcurrentQueue<T> : ConcurrentQueue<T>
+    public sealed class ObservableConcurrentQueue<T> : ConcurrentQueue<T>, INotifyCollectionChanged
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ObservableConcurrentQueue{T}"/> class.
-        /// </summary>
-        /// <param name="isThreadSafe">if set to <c>true</c> [is thread safe].</param>
-        [Obsolete("This constructor is obsolete. Use ObservableConcurrentQueue() instead.", true)]
-        public ObservableConcurrentQueue(bool isThreadSafe): this()
+        public ObservableConcurrentQueue()
         {
-        }
-
-        public ObservableConcurrentQueue(){
 
         }
 
@@ -37,6 +30,7 @@ namespace System.Collections.Concurrent
         ///     Occurs when concurrent queue elements [changed].
         /// </summary>
         public event ConcurrentQueueChangedEventHandler<T> ContentChanged;
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
 
         #endregion
 
@@ -54,7 +48,7 @@ namespace System.Collections.Concurrent
             EnqueueItem(item);
         }
 
-        
+
         /// <summary>
         /// Attempts to remove and return the object at the beginning of the
         ///     <see cref="T:System.Collections.Concurrent.ConcurrentQueue`1"/>.
@@ -109,6 +103,37 @@ namespace System.Collections.Concurrent
         private void OnContentChanged(NotifyConcurrentQueueChangedEventArgs<T> args)
         {
             this.ContentChanged?.Invoke(this, args);
+            NotifyCollectionChangedAction? action;
+            switch (args.Action)
+            {
+                case NotifyConcurrentQueueChangedAction.Enqueue:
+                    {
+                        action = NotifyCollectionChangedAction.Add;
+                        break;
+                    }
+                case NotifyConcurrentQueueChangedAction.Dequeue:
+                    {
+                        action = NotifyCollectionChangedAction.Remove;
+                        break;
+                    }
+                case NotifyConcurrentQueueChangedAction.Empty:
+                    {
+                        action = NotifyCollectionChangedAction.Reset;
+                        break;
+                    }
+                default:
+                    {
+                        action = null;
+                        break;
+                    }
+
+            }
+            if (action.HasValue)
+            {
+                this.CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(action.Value, args.Action != NotifyConcurrentQueueChangedAction.Empty
+                    ? new List<T> { args.ChangedItem }
+                    : null));
+            }
         }
 
         /// <summary>

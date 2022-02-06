@@ -9,6 +9,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Collections.Concurrent;
+using System.Collections.Specialized;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ObservableConcurrentQueue.Tests
@@ -60,15 +61,36 @@ namespace ObservableConcurrentQueue.Tests
         public void InitializeTest()
         {
             _queue = new ObservableConcurrentQueue<int>();
-            _queue.ContentChanged += OnQueueChanged;
         }
 
-        /// <summary>
-        ///     Mains the test.
-        /// </summary>
         [TestMethod]
-        public void MainTest()
-        {
+        public void ContentChangedTest() {
+            // Subscribe 
+            _queue.ContentChanged += OnQueueChanged;
+
+            QueueChangedTests();
+
+            // Unsubscribe from event
+            _queue.ContentChanged -= OnQueueChanged;
+        }
+
+        [TestMethod]
+        public void CollectionChangedTest() {
+            // Subscribe 
+            _queue.CollectionChanged += OnCollectionChanged;
+
+            CollectionChangedTests();
+
+            // Unsubscribe from event
+            _queue.CollectionChanged -= OnCollectionChanged;
+        }
+
+
+        /// <summary>
+        ///     Content Changed the test.
+        /// </summary>
+        public void QueueChangedTests()
+        {  
             // Add 2 elements.
             EnqueueEventTest();
 
@@ -77,6 +99,22 @@ namespace ObservableConcurrentQueue.Tests
 
             // Peek 1 element.
             PeekEventTest();
+
+            // Dequeue all elements
+            // the queue should be empty
+            EmptyQueueTest();
+        }
+
+        public void CollectionChangedTests()
+        {  
+            // Add 2 elements.
+            EnqueueEventTest();
+
+            // Dequeue 1 element.
+            DequeueEventTest();
+
+            // Peek 1 element.
+            // PeekEventTest();
 
             // Dequeue all elements
             // the queue should be empty
@@ -161,6 +199,32 @@ namespace ObservableConcurrentQueue.Tests
                     }
 
                 case NotifyConcurrentQueueChangedAction.Empty:
+                    {
+                        _isQueueEmpty = true;
+                        break;
+                    }
+            }
+        }
+
+        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
+        {
+            switch (args.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    {
+                        _queueAddedItem = (int)args.NewItems[0];
+                        _isQueueEmpty = false;
+                        break;
+                    }
+
+                case NotifyCollectionChangedAction.Remove:
+                    {
+                        _queueDeletedItem = (int)args.OldItems[0];
+                        _isQueueEmpty = false;
+                        break;
+                    }
+
+                case NotifyCollectionChangedAction.Reset:
                     {
                         _isQueueEmpty = true;
                         break;
